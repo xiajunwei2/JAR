@@ -34,7 +34,7 @@ export default {
     },
     methods:{
         showImg(src){
-            this.imgsrc = src;
+            this.imgsrc = src[0].value;
             this.imgshow = true;
             this.width = '100%';
             this.height = 'auto';

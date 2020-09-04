@@ -63,7 +63,9 @@
               <i-switch v-model="form.hasMortgage"></i-switch>
               <div class="mortgage-input" v-if="form.hasMortgage">
                 <div class="input-label">抵押物价值</div>
-                <Input v-model="form.mortgageValue" class="input-text" placeholder="请输入抵押物价值"/>
+                <Input v-model="form.mortgageValue" class="input-text" placeholder="请输入抵押物价值">
+                  <div slot="append" class="append">万元</div>
+                </Input>
               </div>
             </div>
           </FormItem>
@@ -93,7 +95,12 @@
         <div class="next-btn" @click="nextPage">下一步</div>
       </div>
     </div>
-    <mask-layer class='reason-mask' :show='chooseCompanys' title-name='更换企业' @close="chooseCompanys = false" box-width='550px'>
+    <div class="noData" v-else>
+      <p>您还没有添加企业，添加企业并且认证成功后可填写贷款需求</p>
+      <div class="btns btn-one" @click="$router.push({name:'add-company'})">去添加企业</div>
+    </div>
+    <mask-layer class='reason-mask' :show='chooseCompanys' title-name='更换企业' @close="chooseCompanys = false"
+                box-width='550px'>
       <template slot='content'>
         <div class='reason-content'>
           <div class="companyList" v-for="(item,index) in companyList">
@@ -104,6 +111,23 @@
 
       </template>
     </mask-layer>
+    <mask-layer class='reason-mask2' :show='HasCompanys' title-name='' @close="handleClickMask2(false)"
+                box-width='550px'
+                box-height="320px">
+      <template slot='content'>
+        <p class="tTitle">提示</p>
+        <div class='reason-content'>
+          <div class="companyList">
+            <p>欢迎来到普惠金融服务平台</p>
+            <p>填写贷款需求需要添加企业并认证成功，是否现在添加？</p>
+          </div>
+          <div class="butns">
+            <div class="btns btn-two" @click="handleClickMask2(false)">取消</div>
+            <div class="btns btn-one" @click="handleClickMask2(true)">添加企业</div>
+          </div>
+        </div>
+      </template>
+    </mask-layer>
   </div>
 </template>
 <script>
@@ -112,27 +136,28 @@ import {getToken} from "@/utils/localStorage"
 
 export default {
   data() {
-    const ruleValid = ((rule,valid,callback)=>{
-      if(rule.field == 'loanMoney'){
-        if(!this.form.loanMoney){
+    const ruleValid = ((rule, valid, callback) => {
+      if (rule.field == 'loanMoney') {
+        if (!this.form.loanMoney) {
           callback(new Error('请输入贷款需求'))
-        }else{
+        } else {
           let reg = /\d/;
-          if(!reg.test(this.form.loanMoney)){
+          if (!reg.test(this.form.loanMoney)) {
             callback(new Error('请输入数字'))
-          }else{
+          } else {
             callback()
           }
         }
-      }else{
-        if(!this.form.loanCycle){
+      } else {
+        if (!this.form.loanCycle) {
           callback(new Error('请选择贷款周期'))
-        }else{
+        } else {
           callback()
         }
       }
     })
     return {
+      HasCompanys: false,
       chooseCompanys: false,
       companyList: [],
       form: {
@@ -153,8 +178,8 @@ export default {
         purchaserContract: ''
       },
       rules: {
-        loanMoney: [{required: true,validator:ruleValid, trigger: 'blur'}],
-        loanCycle: [{required: true,validator:ruleValid, trigger: 'change'}],
+        loanMoney: [{required: true, validator: ruleValid, trigger: 'blur'}],
+        loanCycle: [{required: true, validator: ruleValid, trigger: 'change'}],
       },
       companyLoanInfo: '', // 企业贷款材料数据
       companyId: '', // 企业id
@@ -163,12 +188,19 @@ export default {
   created() {
     sessionStorage.removeItem('loanInfo')
     sessionStorage.removeItem('company_id')
-    this.companyId = this.$route.query.id || ''
-    this.companyId = this.$route.params.id || ''
+    this.companyId = this.$route.query.id
+    // this.companyId = this.$route.params.id || ''
     this.getField();
-    this.getCompanyLoanInfo();
+
   },
   methods: {
+    handleClickMask2(bool) {
+      if (bool === false)
+        this.HasCompanys = false
+      else if (bool === true) {
+        this.$router.push({name: "add-company"})
+      }
+    },
     handleClickMask(id) {
       this.companyId = id
       this.getCompanyLoanInfo()
@@ -195,12 +227,15 @@ export default {
       }
       http.post(reqUrl, postData, 'nauth')
         .then(res => {
-          if (res) {
-            if (!this.companyId && !this.$route.query.id) {
-              this.companyId = res.content && res.content.companyId;
-              this.getCompanyLoanInfo();
-            } else {
-              this.companyLoanInfo = res.content || '';
+            if (res) {
+              // if (!this.companyId && !this.$route.query.id) {
+              //   this.companyId = res.content && res.content.companyId;
+              //   this.getCompanyLoanInfo();
+              // } else {
+              this.companyLoanInfo = res.content;
+              if (!this.companyLoanInfo) {
+                this.HasCompanys = true
+              }
               sessionStorage.setItem('AllInfos', JSON.stringify(res.content))
               this.form = res.content;
               if (this.form) {
@@ -215,17 +250,20 @@ export default {
               console.log(this.form)
             }
           }
-        })
+        )
     },
     formatError() {
 
-    },
+    }
+    ,
     sizeError() {
 
-    },
+    }
+    ,
     upSuccess() {
 
-    },
+    }
+    ,
     nextPage() {
       this.$refs.form.validate(valid => {
         if (valid) {
@@ -240,11 +278,13 @@ export default {
           this.$router.push({name: 'company-enterprice-info'})
         }
       })
-    },
+    }
+    ,
     async getField() {
       this.fields = await http.post("/sysCode/getCode", {codeType: 'DKZQ'}, 'nauth');
-
-    },
+      this.getCompanyLoanInfo();
+    }
+    ,
     setField(type) {
       let field = [];
       let data = this.fields && this.fields.content || [];
@@ -266,6 +306,60 @@ export default {
 <style lang="less" scoped>
 * {
   cursor: default;
+}
+
+.noData {
+  width: 100%;
+  text-align: center;
+  margin-top: 10%;
+
+  p {
+    display: inline-block;
+    font-size: 18px;
+    margin-right: 10px;
+  }
+
+  .btns {
+    display: flex;
+
+    .next-btn {
+      width: 163px;
+      height: 41px;
+      line-height: 41px;
+      text-align: center;
+      background: rgba(241, 79, 74, 1);
+      border-radius: 3px;
+      font-size: 18px;
+      font-family: Source Han Sans CN;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+      margin: 44px 29px 54px;
+      cursor: pointer;
+    }
+
+    .prev {
+      background: #fff;
+      border: 2px solid rgba(241, 79, 74, 1);
+      color: rgba(241, 79, 74, 1);
+    }
+  }
+
+  .btn-one {
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    //padding:0px 15px;
+    cursor: pointer;
+    border: 2px solid rgba(204, 204, 204, 0);
+    background: rgba(241, 79, 74, 1);
+    font-size: 14px;
+    font-family: Source Han Sans CN;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    //margin: 30px auto 0;
+  }
 }
 
 .companyList {
@@ -453,6 +547,8 @@ export default {
       }
 
       .mortgage-box {
+        height: 43px;
+        line-height: 43px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -503,7 +599,7 @@ export default {
           }
 
           .input-text {
-            width: 313px;
+            width: 330px;
             height: 43px;
             margin-left: 38px;
           }
@@ -539,6 +635,91 @@ export default {
     text-align: center;
     color: rgba(194, 194, 194, 1);
     cursor: pointer;
+  }
+}
+
+/deep/ .reason-mask2 .mask-box {
+  .tTitle {
+    font-size: 20px;
+    color: #5e5e5e;
+  }
+
+  .mask-title {
+    border-bottom: none;
+  }
+
+  .mask-content {
+    width: 100%;
+    padding: 40px;
+    text-align: center;
+  }
+
+  .icon-box {
+    text-align: center;
+    margin: 20px 0 30px;
+  }
+
+  .iconfont.icon-cuowu {
+    font-size: 56px;
+    color: rgba(241, 79, 74, 1);
+  }
+
+  .companyList {
+    text-align: center;
+    margin: 30px 0 0 0;
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .reason-content {
+    text-align: left;
+    line-height: 30px;
+  }
+
+  .butns {
+    width: 270px;
+    height: 40px;
+    margin: 0 auto;
+  }
+
+  .btn-one {
+    float: right;
+    display: inline-block;
+    width: 123px;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    //padding:0px 15px;
+    cursor: pointer;
+    border: 2px solid rgba(204, 204, 204, 0);
+    background: rgba(241, 79, 74, 1);
+    font-size: 16px;
+    font-family: Source Han Sans CN;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    margin: 30px auto 0;
+    border-radius: 5px;
+  }
+
+  .btn-two {
+    float: left;
+    border-radius: 5px;
+    display: inline-block;
+    width: 123px;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    //padding:0px 15px;
+    cursor: pointer;
+    border: 2px solid rgba(0, 0, 0, 1);
+    background: rgba(255, 255, 255, 1);
+    font-size: 16px;
+    font-family: Source Han Sans CN;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+    margin: 30px auto 0;
   }
 }
 </style>

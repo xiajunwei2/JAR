@@ -92,7 +92,7 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     this.getCompanyList();
   },
   methods: {
@@ -128,6 +128,7 @@ export default {
         .then(res => {
           if (res.code == 0) {
             this.getCompanyList()
+            this.$store.state.user.myBaseInfo.companyId = id
           }
         }).catch(res => {
       })
@@ -142,11 +143,13 @@ export default {
     },
     // 获取我的企业列表数据
     getCompanyList() {
+      console.log('1')
       let params = {userId: this.$store.state.user.myBaseInfo.userId}
       http.post('/sysCompany/getCompanyByUserId', params, 'nauth')
         .then(res => {
           if (res.code == 0) {
-            this.companyList = res.content || [];
+            this.companyList = res.content;
+            console.log(this.companyList)
           }
         }).catch(res => {
       })

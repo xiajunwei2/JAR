@@ -6,18 +6,18 @@
         <div class="dTitle">金融贷款产品介绍</div>
         <div class="items">
           <div class="left-item">
-            <div class="item-title">信用贷</div>
+            <div class="item-title">{{KnowledgeList.type}}</div>
             <div class="item-subtitle">Credit loan</div>
             <div class="item-list">
-              <div v-for="(item,index) in KnowledgeList" @click="matchProd(item,1)" :key="index" class="l-item">
+              <div v-for="(item,index) in KnowledgeList.children" @click="matchProd(item,1)" :key="index" class="l-item">
                 {{ item.type }} <img src="/static/images/allow.png" style="margin-left:7px;width:5px;height:9px;"></div>
             </div>
           </div>
           <div class="left-item">
-            <div class="item-title">抵押贷</div>
+            <div class="item-title">{{MortgageList.type}}</div>
             <div class="item-subtitle">Mortgage loan</div>
             <div class="item-list">
-              <div v-for="(item,index) in MortgageList" @click="matchProd(item,2)" :key="index" class="l-item"
+              <div v-for="(item,index) in MortgageList.children" @click="matchProd(item,2)" :key="index" class="l-item"
                    :class="{'d-l-item':item.type && item.type.length>=6}">{{ item.type }} <img
                 src="/static/images/allow.png" style="margin-left:7px;width:5px;height:9px;"></div>
             </div>
@@ -96,7 +96,7 @@
               <div class="l-i-title-text">{{ item.title }}</div>
               <img src="/static/images/new.png" class="new" v-if="item.label"/>
             </div>
-            <div class="l-i-desc" v-html="item.content"></div>
+            <div class="l-i-desc">{{item.summary}}</div>
           </div>
         </div>
       </div>
@@ -110,10 +110,13 @@
       <BoxTitle title="合作机构" etitle="Cooperative organization"></BoxTitle>
       <div class="c-list">
         <vue-seamless-scroll :data="bankLists" :class-option="classOption" class="table-content">
-          <!--            <div style="float: left" v-for="item in bankLists" :key="item.src">-->
-          <img style="margin-right: 10px" :src="item.src" alt="" v-for="item in bankLists" :key="item.src">
-          <!--            </div>-->
-          <!--          </ul>-->
+          <ul>
+            <li>
+              <!--            <div style="float: left" v-for="item in bankLists" :key="item.src">-->
+              <img style="margin-right: 21px;float: left" :src="item.src" alt="" v-for="item in bankLists" :key="item.src">
+              <!--            </div>-->
+            </li>
+          </ul>
         </vue-seamless-scroll>
         <div style="clear: both"></div>
         <!--              <div class="c-item" v-for="item in bankLists" :key="item.src"><img :src="item.src" alt=""></div>-->
@@ -181,6 +184,7 @@ export default {
         {src: require('@/assets/images/jq/PuFaLogo.png')},
         {src: require('@/assets/images/jq/XinYeLogo.png')},
         {src: require('@/assets/images/jq/ZhongXinLogo.png')},
+        {src: require('@/assets/images/jq/lsdb.jpg')},
       ],
       tableDataList: [],
       zcfwList: [],
@@ -209,13 +213,13 @@ export default {
     classOption() {
       return {
         step: 0.2, // 数值越大速度滚动越快
-        limitMoveNum: 5, // 开始无缝滚动的数据量 this.dataList.length
-        hoverStop: true, // 是否开启鼠标悬停stop
+        limitMoveNum: 6, // 开始无缝滚动的数据量 this.dataList.length
+        // hoverStop: true, // 是否开启鼠标悬停stop
         direction: 2, // 0向下 1向上 2向左 3向右
-        openWatch: true, // 开启数据实时监控刷新dom
-        singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
-        singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
-        waitTime: 1000 // 单步运动停止的时间(默认值1000ms)
+        // openWatch: true, // 开启数据实时监控刷新dom
+        // singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
+        // singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
+        // waitTime: 1000 // 单步运动停止的时间(默认值1000ms)
       }
     }
   },
@@ -298,7 +302,7 @@ export default {
       this.$router.push({path: "/loan-type", query: {type: item.type}})
     },
     matchProd(item, type) {
-      this.$router.push({path: "/product", query: {type: type, id: item.id,name:item.type}})
+      this.$router.push({path: "/product", query: {type: type, id: item.id, name: item.type}})
     },
     getZcfwList() {
       Axios.get('/static/data.json').then(res => {
@@ -321,10 +325,15 @@ export default {
       // /inclusive/productType/getAllTypeGroup
       http.post('/productType/getAllTypeGroup', {}, 'nauth').then(res => {
         if (res.code == 0) {
-          let KnowledgeList = res.content.filter(item => item.type == '信用贷');
-          this.KnowledgeList = KnowledgeList[0].children;
-          let MortgageList = res.content.filter(item => item.type == '抵押贷');
-          this.MortgageList = MortgageList[0].children;
+
+          // let KnowledgeList = res.content.filter(item => item.type == '信用贷');
+          // if (KnowledgeList.length > 0) {
+            this.KnowledgeList = res.content[0];
+          // }
+          // let MortgageList = res.content.filter(item => item.type == '抵押贷');
+          // if (KnowledgeList.length > 0) {
+            this.MortgageList = res.content[1];
+          // }
         }
       })
     },
@@ -369,9 +378,17 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-/deep/.table-content {
-  width: 100%;
+.table-content {
+  width: 1122px;
+  height: 119px;
   overflow: hidden;
+  ul {
+    width: 1122px;
+    overflow-x: hidden;
+    li{
+      float: left;
+    }
+  }
   /*>div >div{
     display:flex;
     flex-wrap:nowrap;
@@ -382,8 +399,8 @@ export default {
 .dTitle {
   width: 220px;
   height: 48px;
-  background: rgba(255,255,255,.2);
-  color: rgba(255,255,255,.9);
+  background: rgba(255, 255, 255, .2);
+  color: rgba(255, 255, 255, .9);
   font-size: 18px;
   font-family: Source Han Sans CN;
   font-weight: bold;

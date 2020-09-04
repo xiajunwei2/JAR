@@ -242,7 +242,7 @@ export default {
       if (this.$route.params.edit == 1) {
         this.$router.push({name: 'update-enterprice-info', params: {edit: this.$route.params.edit}})
       } else {
-        this.$router.push({name: 'my-enterprice-info', params: {edit: this.$route.params.edit,id:this.companyId}})
+        this.$router.push({name: 'my-enterprice-info', query: {edit: this.$route.params.edit,id:this.companyId}})
       }
     },
     subForm() {

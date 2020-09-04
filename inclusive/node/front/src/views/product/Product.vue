@@ -4,7 +4,7 @@
     <div class="head-banner">
       <div class="head-tab">
         <div class="tabs">
-          <div class="item dkBtn" :class="{'active':comp=='CreditLoan'}" @click="tabChage('CreditLoan')">信用贷款</div>
+          <div class="item dyBtn" :class="{'active':comp=='CreditLoan'}" @click="tabChage('CreditLoan')">信用贷款</div>
           <div class="item dyBtn" :class="{'active':comp=='Mortgage'}" @click="tabChage('Mortgage')">抵押贷款</div>
         </div>
       </div>
@@ -83,11 +83,12 @@ export default {
       }
 
       .active {
+        background: #333333;
         //background: rgba(241, 79, 74, 1);
         font-size: 22px;
         font-family: Source Han Sans CN;
         font-weight: 400;
-        color: rgba(255, 255, 255, 1);
+        //color: rgba(255, 255, 255, 1);
       }
     }
   }

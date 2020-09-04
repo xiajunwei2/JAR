@@ -3,7 +3,7 @@
       <div class="step">
           <img src="/static/images/add03.png" style="width:100%;">
       </div>
-      <div class="line"></div>
+<!--      <div class="line"></div>-->
       <div class="finsh">
           <img src="/static/images/finsh.png" alt="" class="finsh-img" />
           <div class="c-tips">企业认证信息已提交成功</div>

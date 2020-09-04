@@ -301,7 +301,7 @@ export default {
 
     },
     handleClickMask(id) {
-      this.$router.push({name: 'my-enterprice-info', params: {edit: this.$route.params.edit,id:id}})
+      this.$router.push({name: 'my-enterprice-info', query: {edit: this.$route.params.edit,id:id}})
       this.chooseCompanys = false
     },
     getCompanyList() {

@@ -195,7 +195,7 @@
           </div>
         </div>
         <div class="form_foot">
-          <div class="edit_info" @click="$router.push({name:'my-enterprice-info',query:{id:companyId}})">修改资料</div>
+          <div class="edit_info" @click="editInfo">修改资料</div>
           <div class="apply" v-if="setNum!==2" @click="next">下一步</div>
           <div class="apply" v-if="setNum===2" @click="SubFrom">提交申请</div>
         </div>
@@ -289,6 +289,9 @@ export default {
     },
   },
   methods: {
+    editInfo() {
+      this.$router.push({name: 'my-enterprice-info', query: {id: this.params.companyId}})
+    },
     next() {
       this.setNum++
     },

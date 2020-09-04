@@ -8,7 +8,7 @@
     <!--          </div>-->
     <!--          &lt;!&ndash; <div class="c-btn">更换企业</div> &ndash;&gt;-->
     <!--      </div>-->
-    <div class="line"></div>
+<!--    <div class="line"></div>-->
     <div class="step">
       <img src="/static/images/add02.png" style="width:100%;">
     </div>
@@ -96,7 +96,7 @@
           <div class="yyzz">
             <div class="exp">
               <img
-                src="/static/images/sfzzm.png"
+                src="/static/images/sfz.jpg"
                 alt="">
             </div>
             <div class="up-btn">
@@ -114,7 +114,7 @@
           <div class="yyzz">
             <div class="exp">
               <img
-                src="/static/images/sfzfm.png"
+                src="/static/images/sfz2.jpg"
                 alt="">
             </div>
             <div class="up-btn">
@@ -147,7 +147,7 @@
           <div class="yyzz">
             <div class="exp">
               <img
-                src="/static/images/sfzzm.png"
+                src="/static/images/sqs.jpg"
                 alt="">
             </div>
             <div class="up-btn">
@@ -172,7 +172,7 @@
           <div class="yyzz">
             <div class="exp">
               <img
-                src="/static/images/sfzzm.png"
+                src="/static/images/sfz.jpg"
                 alt="">
             </div>
             <div class="up-btn">
@@ -191,7 +191,7 @@
           <div class="yyzz">
             <div class="exp">
               <img
-                src="/static/images/sfzzm.png"
+                src="/static/images/sfz2.jpg"
                 alt="">
             </div>
             <div class="up-btn">

@@ -34,6 +34,9 @@ export default {
         }
     },
     created(){
+      this.$nextTick(()=>{
+        document.getElementsByClassName('user-center-right')[0].setAttribute('style', 'background : #ffffff')
+      })
         this.companyId = this.$route.query.companyId || '';
         this.loanId = this.$route.query.loanId || '';
         this.getLoanDetail();
@@ -154,7 +157,7 @@ export default {
                         background:rgba(245,47,62,1);
                     }
                 }
-                
+
                 .i-time{
                     padding:0 5px;
                 }

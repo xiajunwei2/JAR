@@ -118,9 +118,13 @@ export default {
     }
   },
   created() {
-    for (let i = 0; i < this.tabs.length; i++) {
-      if (this.tabs[i].title == this.$route.query.name){
-        this.currItem = this.tabs[i];
+    if (this.$route.query.name === undefined) {
+      this.currItem = this.tabs[0];
+    } else {
+      for (let i = 0; i < this.tabs.length; i++) {
+        if (this.tabs[i].title == this.$route.query.name) {
+          this.currItem = this.tabs[i];
+        }
       }
     }
   },

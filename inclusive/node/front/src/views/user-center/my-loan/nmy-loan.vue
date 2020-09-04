@@ -157,8 +157,12 @@ export default {
         .then(res => {
           if (res.code == 0) {
             this.company = res.content || [];
-            if (this.company.length === 0)
+            if (this.company.length === 0){
+              this.$nextTick(()=>{
+                document.getElementsByClassName('user-center-right')[0].setAttribute('style', 'background : #ffffff')
+              })
               this.HasCompanys = true
+            }
           }
         }).catch(res => {
       })
