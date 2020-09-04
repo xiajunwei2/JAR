@@ -1,0 +1,249 @@
+.home-box{
+  position: relative;
+}
+.padding-tb-60{
+  padding:60px 0;
+}
+// 我的申请
+.apply-wrapper{
+  position: absolute;
+  bottom:90px;
+  z-index:11;
+  left:calc(50% - 90px);
+  .apply-box{
+    position: relative;
+    img{
+      border-radius:10px;
+    }
+  }
+  .onekey-apply{
+    position: absolute;
+    top: 0;
+    left: 44px;
+    font-size: 18px;
+    color:#fff;
+  }
+}
+// 数据统计
+.statics-wrapper{
+  position: absolute;
+  bottom:0;left:50%;
+  transform: translatex(-50%);
+  background-color: rgba(0,0,0,.5);
+  width:100%;
+  max-width: 100vw;
+  padding:10px;
+  color:#fff;
+  .row>div{
+    position: relative;
+  }
+  .row>div:not(:last-child)::after{
+    content:'';
+    position: absolute;
+    top:36px;right:0;
+    width:1px;
+    height:41px;
+    background:rgba(255,255,255,1);
+    opacity:0.5;
+  }
+  .iconfont{
+    font-size:2.4rem;
+  }
+  .icon,.number{
+    margin-bottom:6px;
+  }
+  .icon img{
+    width:28px;
+    height:28px;
+  }
+  .number b{
+    font-size:3.6rem;
+    font-weight: 300;
+  }
+  .desc{
+    color:#999;
+  }
+}
+
+// 优势
+.adv-wrapper{
+  .adv-container{
+    // background-repeat: no-repeat;
+    // background-position: right;
+    background: url(../../assets//images/jq/index_bg3.png) no-repeat right 127px;
+    display:flex;
+    align-items: center;
+    // justify-content: space-between;
+  }
+  .adv-lists{
+    display:inline-block;
+    max-width:500px;
+    padding-top:50px;
+    padding-bottom:20px;
+    margin-top:47px;
+  }
+  .adv-item{
+    margin-bottom:40px;
+  }
+  .dot{
+    display:inline-block;
+    width:14px;height:14px;
+    border-radius: 50%;
+    position: relative;
+    top:-3px;
+  }
+  .title{
+    font-family:SimHei;
+    color:#333;
+    font-size:35px;
+    margin-bottom:20px;
+    font-weight: bold;
+  }
+  .subtitle{
+    font-family:SourceHanSansCN;
+    color:#333;
+    margin-left:30px;
+    line-height: 24px;
+    font-size:16px;
+    opacity:0.7;
+  }
+}
+
+.list-wrapper{
+  border:1px solid #E6DFDF;
+  border-top:none;
+  border-radius: @border-radius-base;
+  overflow: hidden;
+  text-align: center;
+  .list-head{
+    background:@redColor;
+    color:#fff;
+    height:45px;
+    line-height: 45px;
+    border-top-left-radius: @border-radius-base;
+    border-top-right-radius: @border-radius-base;
+    background:linear-gradient(0deg,rgba(217,57,51,1) 0%,rgba(245,143,144,1) 100%);
+    font-family:黑体;
+    div{
+      font-size:16px !important;
+      font-weight:bold;
+      color:#fff !important;
+      font-family:黑体 !important;
+    }
+  }
+  .list-item{
+    padding:0 20px;
+    display:flex;
+    div{
+      flex:1;
+      font-size:14px;
+      font-weight:300;
+      font-family:Source Han Sans CN;
+      color:#555555;
+      // &:not(:last-child){
+      //   border-right: 1px solid #DEBDBD;
+      // }
+      border-left:1px solid #DEDEDF;
+      &:first-child{
+        border-left:none;
+      }
+    }
+  }
+  .list-content{
+    overflow-y: auto;
+    overflow-x: hidden;
+    .list-item{
+      height:50px;
+      line-height: 50px;
+    }
+    .list-item:nth-child(2n){
+      background-color: #F6F5FA;
+    }
+    .list-item:nth-child(2n+1){
+      background-color: #ECEBF0;
+    }
+    
+  }
+}
+
+// 步骤
+.progress-wrapper{
+  padding-bottom:30px;
+  .pro-box{
+    display: flex;
+    justify-content: space-between;
+    margin-top:11px;
+  }
+  .dots-4{
+    float:right;
+    position: relative;
+    top:calc(50% - 20px);left:5%;
+    span{
+      display: inline-block;
+      width:6px;height:6px;
+      margin-left:-4px;
+      border-radius: 50%;
+      background:#ccc;
+    }
+  }
+  .pro-mask{
+    position: absolute;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,.5);
+  }
+  .pro-item{
+    position: relative;
+    color:#fff;
+    font-size:30px;
+    img{
+      max-width: 100%;
+    }
+    &-info{
+      position: absolute;
+      top:30px;left: 20px;
+    }
+    .sort{
+      margin-bottom:20px;
+    }
+    .name{
+      position: relative;
+      font-size:23px;
+      &::after{
+        content: '';
+        position: absolute;
+        bottom:-30px;left:0;
+        width: 30px;
+        background:#fff;
+        height:6px;
+        border-radius: 3px;
+      }
+    }
+  }
+}
+.head-title{
+  text-align: center;
+  .dot{
+    display:inline-block;
+    width:14px;height:14px;
+    border-radius: 50%;
+  }
+  .text{
+    margin:0 10px 40px;
+    font-size:18px;
+    font-family:SourceHanSansCN;
+    font-weight:bold;
+    color:rgba(51,51,51,1);
+    line-height:20px;
+  }
+}
+// 精准匹配
+.match-wrapper{
+  background: linear-gradient(to bottom,#EAE6E6 0%,#D3D3D9 100%);
+  text-align: center;
+}
+// 合作机构
+.coor-org-wrapper .text-center .center-title{margin-bottom:44px !important;}
+.coor-org-wrapper{margin-bottom:26px;}
+.coor-org-wrapper .bank-item{margin-bottom: 58px !important;}
+.center-title .name{font-weight:inherit !important;}

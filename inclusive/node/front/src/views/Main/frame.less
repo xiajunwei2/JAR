@@ -1,0 +1,54 @@
+.iconfont{
+  display:inline-block;
+}
+.icon-loading{
+  animation: rotate 1s linear infinite;
+}
+//标题
+.center-title{
+  text-align: center;
+  margin-bottom:40px;
+  .name{
+    font-weight: 700;
+    font-family: '微软雅黑';
+    font-size:22px;
+    margin:0 20px;
+  }
+  &::before,&::after{
+    content:'';
+    display: inline-block;
+    width:15px;height:15px;
+    background:linear-gradient(0deg,@redGFrom 0%,@redGTo 100%);
+    border-radius: 50%;
+  }
+}
+@keyframes rotate{
+  from{
+    transform: rotate(0);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+.frame-box{
+  // padding-top: 90px;
+  height:100%;
+  // overflow-y: auto;
+  .frame-body{
+    position: relative;
+    // min-height: 100%;
+    min-height: calc(100% - 260px);
+    // background:url('../../assets/images/login_bg.png') no-repeat;
+    // background-size: cover;
+  }
+  @media screen and (max-width:1280px){
+    .frame-body{
+      min-height: calc(100% - 180px);
+    }
+  }
+  @media screen and (max-width:992px){
+    .frame-body{
+      min-height: calc(100% - 300px);
+    }
+  }
+}

@@ -1,0 +1,115 @@
+.height(@h){
+  height:@h;
+  line-height: @h;
+}
+.header-box{
+  // position: fixed;
+  // width:100%;
+  // top:0;left:0;
+  // z-index:1112;
+  box-shadow: 0 0 6px 0 rgba(0,0,0,0.3);
+}
+.navbar-header{
+  padding:10px 0;
+  vertical-align: middle;
+  .line{
+    display:inline-block;
+    width:2px;
+    height:48px;
+    background:rgba(166,166,166,1);
+    vertical-align: inherit;
+    margin:0px 23px 0px 26px;
+  }
+  .login-text{
+    display:inline-block;
+    // width:118px;
+    // height:28px;
+    font-size:30px;
+    font-family:Source Han Sans CN;
+    font-weight:300;
+    color:rgba(153,153,153,1);
+    vertical-align: inherit;
+  }
+}
+.container-fluid{
+  padding:0;
+  width:100%;
+  max-width:1200px;
+  >.navbar-collapse,
+  >.navbar-header{
+    // padding:0;
+    margin-left: 0;
+    margin-right:0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.btn-image{
+  margin-right:6px;
+  position: relative;
+  top:-2px;
+}
+// 下方的菜单列表
+.navbar-default{
+  background: #fff;
+  // padding:10px 0;
+  margin:0;
+  border:none;
+  border-bottom: 1px solid #f6f6f6;
+  .navbar-form{
+    margin-left: 0;
+    margin-right:0;
+    padding-left:0;
+    padding-right: 0;
+  }
+  .navbar-right{
+    margin-top:24px;
+  }
+}
+.navbar-nav{
+  margin:0;
+}
+// 操作列表样式
+.my-nav{
+  margin-left:70px;
+  >li>a{
+    padding:12px 15px;
+  }
+}
+// 操作列表的item样式
+.nav-item>span{
+  display: inline-block;
+  padding:34px 0 28px;
+  font-size: 20px;
+  margin-right:40px;
+  color:#333;
+  background:transparent;
+  position: relative;
+  &.active,&:hover{
+    color:@redColor;
+  }
+  &.active::after{
+    content:'';
+    position: absolute;
+    bottom:-7px;
+    left:0;
+    width:100%;
+    height:6px;
+    background-color: @redColor;
+  }
+}
+.a-mr{
+  width:1px;height:14px;
+  position: relative;
+  top:2px;
+  background: #ccc;
+}
+
+.header-lang-a{
+  padding: 13px 20px;
+  cursor: pointer;
+  opacity: .5;
+  &:hover,&.active{
+    opacity: 1;
+  }
+}
